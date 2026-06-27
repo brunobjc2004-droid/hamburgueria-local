@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa Esquina — Hamburgueria de Bairro</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0f0e0c;
+            --bg-card: #161512;
+            --bg-card-hover: #1e1d19;
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --text-light: #f3f4f6;
+            --text-muted: #a1a1aa;
+            --border-color: #2e2b26;
+            --font-title: 'Barlow Condensed', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Removido o scroll-behavior: smooth daqui para usar o JS personalizado mais lento */
+        }
+
+        html {
+            /* Adicionado para o scroll não esconder o título atrás do menu fixo */
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e2b26;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 14, 12, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: #fff !important;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            transition: transform 0.3s ease, background-color 0.3s ease !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128c7e !important;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(15, 14, 12, 1)), 
+                        url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1920&auto=format&fit=crop') no-repeat center center/cover;
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .badge {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-title);
+            font-size: 4rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-menu { display: none; }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-style: italic;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--bg-dark);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--border-color);
+            padding: 13px 33px;
+            border-radius: 50px;
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-light);
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title h2 span {
+            color: var(--primary);
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 10px auto 0;
+        }
+
+        /* History Section Layout */
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .history-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+
+        .history-text p {
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .history-text strong {
+            color: var(--text-light);
+        }
+
+        .history-quote {
+            background-color: var(--bg-card);
+            border-left: 4px solid var(--primary);
+            padding: 30px;
+            border-radius: 0 12px 12px 0;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .history-quote blockquote {
+            font-style: italic;
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+        }
+
+        .history-quote cite {
+            font-family: var(--font-title);
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 700;
+            font-style: normal;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section Layout */
+        .menu-category {
+            margin-bottom: 60px;
+        }
+
+        .category-header {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+
+        .menu-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item:hover {
+            border-color: #3e3a33;
+            background-color: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 15px;
+        }
+
+        .item-title {
+            font-family: var(--font-title);
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-price {
+            font-family: var(--font-title);
+            font-size: 1.4rem;
+            color: var(--primary);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .item-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .item-optional {
+            font-size: 0.85rem;
+            background-color: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #6366f1;
+            color: #dbdaea;
+        }
+
+        /* Contact & Info Section */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid { grid-template-columns: 1fr; padding: 25px; }
+        }
+
+        .info-block h3 {
+            font-family: var(--font-title);
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .info-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .info-content p {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .info-content span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #0b0a09;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo scroll-link">Nossa<span>Esquina</span></a>
+            <ul class="nav-menu">
+                <li><a href="#" class="scroll-link">Início</a></li>
+                <li><a href="#historia" class="scroll-link">Nossa História</a></li>
+                <li><a href="#cardapio" class="scroll-link">Cardápio</a></li>
+                <li><a href="#contato" class="scroll-link">Onde Estamos</a></li>
+                <li><a href="https://wa.me/5511987654321" target="_blank" class="btn-whatsapp">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle;">
+                        <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.69-4.98c-.202-.101-1.194-.588-1.378-.653-.185-.069-.32-.103-.455.101-.135.202-.523.653-.64.789-.117.135-.235.151-.437.05-2-.1-3.534-.738-4.75-1.812-.416-.367-.707-.82-.797-1.327-.137-.233-.016-.359.1-.475.105-.105.235-.274.354-.411.119-.137.159-.234.238-.391.079-.157.04-.294-.02-.395-.06-.101-.523-1.261-.717-1.727-.19-.459-.382-.397-.523-.404-.135-.007-.29-.007-.445-.007a.892.892 0 0 0-.646.301c-.223.243-.854.835-.854 2.037 0 1.202.874 2.362.994 2.523.121.161 1.717 2.625 4.162 3.684.577.25 1.028.4 1.378.511.58.185 1.109.158 1.528.095.467-.07 1.194-.488 1.362-.96.168-.472.168-.875.118-.96-.05-.085-.185-.135-.387-.236z"/>
+                    </svg> Pedir no WhatsApp
+                </a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="badge">Desde 2012</span>
+            <h1>Nossa Esquina<br><span>Hamburgueria de Bairro</span></h1>
+            <p>"Grandes redes vendem fast-food. Nós vendemos a sensação de estar em casa."</p>
+            <div class="cta-group">
+                <a href="#cardapio" class="btn-primary scroll-link">Ver Cardápio</a>
+                <a href="#historia" class="btn-secondary scroll-link">Nossa História</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="historia">
+        <div class="section-title">
+            <h2>Nossa <span>História</span></h2>
+            <p>Como uma chapa velha e uma teimosia sem tamanho viraram o ponto mais querido do bairro.</p>
+        </div>
+        <div class="history-grid">
+            <div class="history-text">
+                <p>O cheiro de fumaça de lenha misturado com gordura na chapa era o relógio oficial da Rua dos Pinheiros. Se o relógio marcava 18h30, o bairro inteiro já sabia: o <strong>Seu Jorge</strong> estava acendendo os braseiros da "Esquina do Hambúrguer".</p>
+                <p>A história não começou com blends gourmet de Wagyu ou maionese de trufas. Começou em 2012, com uma chapa velha, um carrinho de lanche herdado de um tio e uma teimosia sem tamanho do Seu Jorge que, após ser demitido da metalúrgica, decidiu transformar o quintal de sua casa de esquina em sustento.</p>
+                <p>Em 2018, com a chegada de grandes redes de fast-food, seu filho <strong>Léo</strong> interveio para modernizar o negócio com todo respeito ao passado. Trouxe um balcão rústico de madeira, luzes quentes de filamento, e aperfeiçoou o blend moído na hora de acém, fraldinha e gordura de peito. Junto com a lendária maionese verde da <strong>Dona Maria</strong>, o espaço renasceu como o conhecemos hoje.</p>
+            </div>
+            <div class="history-text">
+                <div class="history-quote" style="margin-bottom: 25px;">
+                    <blockquote>"Pai, a gente não vai competir no preço, mas eles não têm o seu tempero e nem a nossa história."</blockquote>
+                    <cite>— Léo</cite>
+                </div>
+                <p>Hoje, toda sexta à noite a cena se repete: calçada cheia, cerveja gelada e conversas jogadas fora. O Seu Jorge ainda comanda o ponto da carne, o Léo cuida do salão e a Dona Maria garante a qualidade direto da cozinha. Mais que comer, vir aqui é se sentir em casa.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="cardapio">
+        <div class="section-title">
+            <h2>Nosso <span>Cardápio</span></h2>
+            <p>Feito na chapa, com ingredientes frescos e o tempero incomparável da nossa família.</p>
+        </div>
+
+        <!--🍔 LANCHES -->
+        <div class="menu-category">
+            <div class="category-header">
+                <span>🍔</span> Lanches Artesanais
+            </div>
+            <div class="menu-grid">
+                <!-- Item 1 -->
+                <div class="menu-item">
+                    <div>
+                        <div class="item-top">
+                            <h3 class="item-title">01. O Clássico da Esquina</h3>
+                            <span class="item-price">R$ 26,00</span>
+                        </div>
+                        <p class="item-description">Pão de brioche selado na manteiga, blend artesanal de 150g (acém e fraldinha), queijo prato derretido e a famosa maionese verde da Dona Maria.</p>
+                    </div>
+                    <div class="item-optional">
+                        <strong>Opcional:</strong> Adicione alface e tomate fresco sem custo adicional.
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="menu-item">
+                    <div>
+                        <div class="item-top">
+                            <h3 class="item-title">02. O Garoto do Bairro</h3>
+                            <span class="item-price">R$ 32,00</span>
+                        </div>
+                        <p class="item-description">O preferido da casa! Pão de brioche, blend artesanal de 150g, queijo cheddar derretido, fatias de bacon crocante, cebola caramelizada na chapa e maionese artesanal defumada.</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="menu-item">
+                    <div>
+                        <div class="item-top">
+                            <h3 class="item-title">03. O Ignorante</h3>
+                            <span class="item-price">R$ 44,00</span>
+                        </div>
+                        <p class="item-description">Para quem vem com muita fome. O monstro sagrado da nossa chapa! Pão de brioche, dois blends artesanais de 150g (300g de carne no total), o dobro de queijo prato, ovo frito com gema mole, muito bacon e maionese verde da Dona Maria.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🥤 BEBIDAS -->
+        <div class="menu-category">
+            <div class="category-header">
+                <span>🥤</span> Bebidas & Geladas
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Refrigerante em Lata</h3>
+                        <span class="item-price">R$ 6,00</span>
+                    </div>
+                    <p class="item-description">Coca-Cola ou Guaraná Antarctica. Servido trincando de gelado com copo americano e rodela de limão.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Suco de Laranja Natural (300ml)</h3>
+                        <span class="item-price">R$ 8,50</span>
+                    </div>
+                    <p class="item-description">Espremido na hora pela Dona Maria, bem fresco e natural.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Soda Italiana de Maçã Verde</h3>
+                        <span class="item-price">R$ 11,00</span>
+                    </div>
+                    <p class="item-description">Leve, refrescante e levemente gaseificada.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Cerveja em Lata</h3>
+                        <span class="item-price">R$ 7,00</span>
+                    </div>
+                    <p class="item-description">Skol ou Brahma trincando de gelada. Ideal para abrir os caminhos enquanto espera na calçada.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Heineken / Long Neck Premium</h3>
+                        <span class="item-price">R$ 11,00</span>
+                    </div>
+                    <p class="item-description">Cerveja com mais amargor para cortar perfeitamente a gordura do bacon.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Milkshake de Baunilha (400ml)</h3>
+                        <span class="item-price">R$ 16,00</span>
+                    </div>
+                    <p class="item-description">A sobremesa líquida. Feito com sorvete de massa de verdade, batido na hora com calda de chocolate e chantilly.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🍨 SOBREMESAS -->
+        <div class="menu-category">
+            <div class="category-header">
+                <span>🍨</span> Sobremesas Caseiras
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Pudim de Leite Moça da Dona Maria</h3>
+                        <span class="item-price">R$ 9,00</span>
+                    </div>
+                    <p class="item-description">O clássico dos clássicos. Super cremoso, sem furinhos, com aquela calda de caramelo brilhante de dar água na boca.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Brownie da Chapa com Sorvete</h3>
+                        <span class="item-price">R$ 18,00</span>
+                    </div>
+                    <p class="item-description">Um brownie de chocolate meio amargo, aquecido rapidamente na chapa para criar uma casquinha, servido com uma bola de sorvete de creme e calda.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-top">
+                        <h3 class="item-title">Banana Split da Esquina</h3>
+                        <span class="item-price">R$ 22,00</span>
+                    </div>
+                    <p class="item-description">Três bolas de sorvete (creme, chocolate e morango), uma banana cortada ao meio, cobertura de morango e chocolate, farofa de amendoim e chantilly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Location Section -->
+    <section id="contato">
+        <div class="section-title">
+            <h2>Onde <span>Estamos</span> & Contato</h2>
+            <p>Venha nos visitar ou faça o seu pedido direto com a gente.</p>
+        </div>
+        <div class="info-grid">
+            <div class="info-block">
+                <h3>Nossa Localização</h3>
+                <div class="info-details">
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-content">
+                            <p>Rua dos Pinheiros, nº 412</p>
+                            <span>Esquina com a Alameda das Oliveiras<br>Bairro Alto dos Pinheiros, São Paulo - SP</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🕒</div>
+                        <div class="info-content">
+                            <p>Horário de Funcionamento</p>
+                            <span>De Terça a Domingo, das 18h30 às 23h30</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">📸</div>
+                        <div class="info-content">
+                            <p>Instagram</p>
+                            <span><a href="https://instagram.com/nossaesquina_hamburgueria" target="_blank" style="color: var(--primary); text-decoration: none;">@nossaesquina_hamburgueria</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info-block" style="border-left: 1px solid var(--border-color); padding-left: 20px;">
+                <h3>Peça Agora</h3>
+                <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem;">Prefere receber em casa ou adiantar o seu pedido? Fale com a gente no WhatsApp.</p>
+                <div class="info-item" style="margin-bottom: 25px;">
+                    <div class="info-icon" style="background-color: rgba(37, 211, 102, 0.1); color: #25d366;">💬</div>
+                    <div class="info-content">
+                        <p>WhatsApp</p>
+                        <span style="font-size: 1.1rem; color: #fff; font-weight: bold;">(11) 98765-4321</span>
+                    </div>
+                </div>
+                <a href="https://wa.me/5511987654321" target="_blank" class="btn-primary" style="display: block; text-align: center; font-size: 1rem; padding: 12px;">Chamar no WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Nossa Esquina — Hamburgueria de Bairro. Todos os direitos reservados.</p>
+        <p>Desenvolvido com carinho inspirado na essência de bairro.</p>
+    </footer>
+
+    <!-- Chat Bot Integration -->
+    <script 
+        src="https://bots.easy-peasy.ai/chat.min.js" 
+        data-chat-url="https://bots.easy-peasy.ai/bot/7820ff6c-8330-4873-b3dd-c421cdf6458e" 
+        data-btn-position="bottom-right" 
+        data-widget-btn-color="#6366f1" 
+        defer>
+    </script>
+
+    <!-- Script de Animação de Scroll Suave Personalizada (Lenta) -->
+    <script>
+        document.querySelectorAll('a.scroll-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') {
+                    smoothScrollTo(0, 1000); // Rola para o topo em 1 segundo
+                    return;
+                }
+                
+                const targetElement = document.querySelector(targetId);
+                if (!targetElement) return;
+
+                const headerOffset = 90; // Altura do header para não esconder o título
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                // Chama a função personalizada com duração de 1200ms (bem suave e devagar)
+                smoothScrollTo(offsetPosition, 1200);
+            });
+        });
+
+        // Função para scroll customizado lento usando easing
+        function smoothScrollTo(targetPosition, duration) {
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                
+                // Curva Easing in-out (deixa o começo e fim mais lentos, e o meio fluído)
+                const easeInOutCubic = progress < 0.5 
+                    ? 4 * progress * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                window.scrollTo(0, startPosition + distance * easeInOutCubic);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+    </script>
+
+</body>
+</html>
