@@ -13,7 +13,6 @@ Uma página única (Single Page Application) responsiva que apresenta a identida
 
 * **Tecnologias:** HTML5 estrutural, CSS3 (variáveis nativas e layout responsivo) e JavaScript Vanilla.
 * **Scroll Suave Customizado:** Implementação de script JS com curva de *easing* para garantir uma transição de rolagem lenta e fluida (1.2 segundos) entre as seções do menu.
-* **Mascote:** Integração da identidade visual do personagem "Léo" no layout da página.
 
 ---
 
