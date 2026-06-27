@@ -1,6 +1,3 @@
-# hamburgueria-local
-Projeto frontend (SENAI) de uma hamburgueria de bairro, criado com IA e com integração de chatbot via Easy-Peasy.ai.
-
 # 🍔 Nossa Esquina — Hamburgueria de Bairro
 
 Este repositório contém o código-fonte de uma landing page institucional para a hamburgueria fictícia **Nossa Esquina**. O projeto foi desenvolvido como uma atividade prática no **SENAI**, focando no desenvolvimento frontend auxiliado por Inteligência Artificial (IA) e na integração de assistentes virtuais de atendimento.
